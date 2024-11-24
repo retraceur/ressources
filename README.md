@@ -1,2 +1,2 @@
 # ressources
-Ressources partagées par le dictionnaire de motsVertueux
+Ressources partagées par les dépôt de Retraceur.
