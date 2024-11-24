@@ -1,2 +1,2 @@
 # ressources
-Ressources partagées par les dépôt de Retraceur.
+Ressources partagées par les dépôts de Retraceur.
