@@ -1,0 +1,97 @@
+{
+	"title": "JSON schema for the Retraceur extension manifest",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"properties": {
+		"$schema": {
+			"description": "Allows editors and tools to validate the manifest against this schema.",
+			"type": "string"
+		},
+		"schemaVersion": {
+			"description": "The version of the Retraceur manifest schema.",
+			"type": "integer",
+			"const": 1
+		},
+		"name": {
+			"description": "The unique identifier for the resource. It must match its GitHub repository full name, structured as `owner/repo`.",
+			"type": "string",
+			"pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+		},
+		"type": {
+			"description": "The type of resource described by this manifest.",
+			"type": "string",
+			"enum": [
+				"plugin",
+				"block"
+			]
+		},
+		"requires": {
+			"description": "The requirements the resource needs to run: minimum Retraceur and PHP versions, and any other Retraceur resource it depends on.",
+			"type": "object",
+			"properties": {
+				"retraceur": {
+					"description": "The minimum required version of Retraceur, such as 4.0.0. Treated as a minimum, not an exact match.",
+					"type": "string"
+				},
+				"php": {
+					"description": "The minimum required version of PHP, such as 7.4. Treated as a minimum, not an exact match.",
+					"type": "string"
+				},
+				"dependencies": {
+					"description": "Other Retraceur resources (plugins or blocks) this resource depends on. Each dependency is resolved from its GitHub repository.",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"repo": {
+								"description": "The GitHub repository full name of the dependency, formatted as `owner/repo`.",
+								"type": "string",
+								"pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+							},
+							"version": {
+								"description": "Version constraint the dependency must satisfy. Accepts a bare version (treated as a minimum), a version prefixed with `>=`, `<=`, `>`, `<` or `=`, or a caret range (`^X.Y.Z`). Omit to accept any installed version.",
+								"type": "string",
+								"default": "*"
+							}
+						},
+						"required": [
+							"repo"
+						],
+						"additionalProperties": false
+					},
+					"default": []
+				}
+			},
+			"required": [
+				"retraceur",
+				"php"
+			],
+			"additionalProperties": false
+		},
+		"author": {
+			"description": "The author of the resource.",
+			"type": "object",
+			"properties": {
+				"name": {
+					"description": "The name of the author.",
+					"type": "string"
+				},
+				"url": {
+					"description": "A URL for the author, such as their website or GitHub profile.",
+					"type": "string",
+					"format": "uri"
+				}
+			},
+			"required": [
+				"name"
+			],
+			"additionalProperties": false
+		}
+	},
+	"required": [
+		"name",
+		"type",
+		"requires"
+	],
+	"additionalProperties": false
+}
